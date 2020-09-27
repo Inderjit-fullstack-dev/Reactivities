@@ -1,0 +1,88 @@
+* create new solution
+dotnet new sln
+
+-------------------------------------------------
+* create class library for Domain layer
+dotnet new classlib -n Domain 
+
+
+------------------------------------------------
+* create class library for Application layer
+dotnet new classlib -n Application
+
+-------------------------------------------------
+
+* create class library for Persistence layer
+dotnet new classlib -n Persistence
+
+-------------------------------------------------
+
+* create web api
+dotnet new webapi -n API
+
+-------------------------------------------------
+
+* Adding projects to the solution 
+dotnet sln add Domain/
+dotnet sln add Application/
+dotnet sln add Persistence/
+dotnet sln add API/
+
+
+-------------------------------------------------
+
+* Adding Application layer a references of the Domain and persistence
+
+cd Application
+dotnet add reference ../Domain/
+dotnet add reference ../Persistence/
+
+
+----------------------------------------------------
+
+* Adding API project to reference to Application layer 
+cd API 
+dotnet add reference ../Application
+
+-------------------------------------------------
+
+* Adding persistence project to reference to Domain layer 
+cd Persistence 
+dotnet add reference ../Domain
+
+--------------------------------------------------------------
+add packge in the persistence project using nuget package manager
+
+ctrl + shift + p 
+    -> add nuget package 
+    -> Microsoft.EntityFrameworkCore 
+    -> choose version 
+    -> choose persistence project
+
+
+Microsoft.EntityFrameworkCore.Sqlite
+
+--------------------------------------------------
+
+* set all the class library <TargetFramework>netstandard2.1</TargetFramework>
+
+------------------------------------------------------------------------
+
+*dotnet restore
+
+
+---------------------------------------------------------------------
+
+* adding dotnet-ef tool for migration
+
+dotnet tool install --global dotnet-ef
+
+Microsoft.EntityFrameworkCore.Design --> in api
+
+---------------------------------------------------------------------
+
+* migration 
+
+dotnet ef migrations add InitialCreate -p Persistence/ -s API/
+
+-------------------------------------------------------------------------
