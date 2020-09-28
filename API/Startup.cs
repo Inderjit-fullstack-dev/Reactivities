@@ -1,3 +1,5 @@
+using Application.Activities;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,8 @@ namespace API
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(typeof(List.Handler).Assembly);
+            
             services.AddDbContext<DataContext>(opt => {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });

@@ -86,3 +86,7 @@ Microsoft.EntityFrameworkCore.Design --> in api
 dotnet ef migrations add InitialCreate -p Persistence/ -s API/
 
 -------------------------------------------------------------------------
+
+* add mediatR package
+
+MediatR.Extension.Microsoft.DependencyInjection
