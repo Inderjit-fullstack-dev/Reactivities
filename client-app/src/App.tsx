@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Header, Icon } from "semantic-ui-react";
+import Navbar from "./Components/Navbar";
+import { Container } from "semantic-ui-react";
 
 const App = () => {
   const [activities, setActivities] = useState([]);
@@ -13,15 +14,14 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header as="h2">
-        <Icon name="users" />
-        <Header.Content>Reactivities</Header.Content>
-      </Header>
-      <ul>
-        {activities.map((value: any) => (
-          <li key={value.id}>{value.title}</li>
-        ))}
-      </ul>
+      <Navbar />
+      <Container style={{ marginTop: "5em" }}>
+        <ul>
+          {activities.map((value: any) => (
+            <li key={value.id}>{value.title}</li>
+          ))}
+        </ul>
+      </Container>
     </div>
   );
 };
