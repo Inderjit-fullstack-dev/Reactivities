@@ -28,3 +28,9 @@ body {
     #673ab7 89%
   ) !important;
 }
+
+.activity__category {
+  margin-top: 10px !important;
+  margin-left: -1px !important;
+  text-transform: capitalize !important;
+}
