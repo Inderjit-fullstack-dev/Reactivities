@@ -5,6 +5,8 @@ const ActivityList: React.FC<any> = ({
   activities,
   selectActivity,
   deleteActivity,
+  submitting,
+  target,
 }) => {
   return (
     <Segment>
@@ -35,9 +37,11 @@ const ActivityList: React.FC<any> = ({
                 />
 
                 <Button
+                  name={activity.id}
+                  loading={target === activity.id && submitting}
                   color="red"
                   floated="right"
-                  onClick={() => deleteActivity(activity.id)}
+                  onClick={(event) => deleteActivity(event, activity.id)}
                 >
                   <Icon name="trash" /> Delete
                 </Button>

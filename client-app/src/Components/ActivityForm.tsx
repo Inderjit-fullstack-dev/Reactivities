@@ -7,12 +7,16 @@ interface IProps {
   selectedActivity: any | null;
   createActivity: (activity: any) => void;
   editActivity: (activity: any) => void;
+  submitting: boolean;
+  target: string;
 }
 const ActivityForm: React.FC<IProps> = ({
   setEditMode,
   selectedActivity,
   createActivity,
   editActivity,
+  submitting,
+  target,
 }) => {
   const initializeForm = () => {
     if (selectedActivity) {
@@ -41,7 +45,7 @@ const ActivityForm: React.FC<IProps> = ({
     if (activity.id.length === 0) {
       let newActivity = {
         ...activity,
-        id: "guid",
+        id: uuid(),
       };
       createActivity(newActivity);
     } else {
@@ -90,7 +94,13 @@ const ActivityForm: React.FC<IProps> = ({
           value={activity.venue}
           onChange={hangleInputChange}
         />
-        <Button floated="right" positive type="submit" content="Submit" />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           floated="right"
           type="button"
