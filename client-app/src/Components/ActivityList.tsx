@@ -1,7 +1,11 @@
 import React from "react";
-import { Button, Item, Label, Segment } from "semantic-ui-react";
+import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 
-const ActivityList: React.FC<any> = ({ activities, selectActivity }) => {
+const ActivityList: React.FC<any> = ({
+  activities,
+  selectActivity,
+  deleteActivity,
+}) => {
   return (
     <Segment>
       <Item.Group divided>
@@ -29,6 +33,14 @@ const ActivityList: React.FC<any> = ({ activities, selectActivity }) => {
                   floated="right"
                   onClick={() => selectActivity(activity.id)}
                 />
+
+                <Button
+                  color="red"
+                  floated="right"
+                  onClick={() => deleteActivity(activity.id)}
+                >
+                  <Icon name="trash" /> Delete
+                </Button>
               </Item.Extra>
             </Item.Content>
           </Item>

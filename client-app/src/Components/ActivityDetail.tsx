@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button, Card, Icon, Image } from "semantic-ui-react";
 
 const ActivityDetail: React.FC<any> = ({
   selectedActivity,
@@ -22,18 +22,13 @@ const ActivityDetail: React.FC<any> = ({
       </Card.Content>
       <Card.Content extra>
         <Button.Group widths={2}>
-          <Button
-            basic
-            content="Edit"
-            color="blue"
-            onClick={() => setEditMode(true)}
-          />
-          <Button
-            basic
-            content="Cancel"
-            color="grey"
-            onClick={() => setSelectedActivity(null)}
-          />
+          <Button basic color="blue" onClick={() => setEditMode(true)}>
+            <Icon name="edit" /> Edit
+          </Button>
+
+          <Button basic color="grey" onClick={() => setSelectedActivity(null)}>
+            <Icon name="cancel" /> Cancel
+          </Button>
         </Button.Group>
       </Card.Content>
     </Card>

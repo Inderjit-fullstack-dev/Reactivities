@@ -11,6 +11,9 @@ const Dashboard: React.FC<any> = ({
   setSelectedActivity,
   editMode,
   setEditMode,
+  createActivity,
+  editActivity,
+  deleteActivity,
 }) => {
   return (
     <Grid>
@@ -19,6 +22,7 @@ const Dashboard: React.FC<any> = ({
           <ActivityList
             activities={activities}
             selectActivity={selectActivity}
+            deleteActivity={deleteActivity}
           />
         </Grid.Column>
         <Grid.Column width={6}>
@@ -32,8 +36,11 @@ const Dashboard: React.FC<any> = ({
 
           {editMode && (
             <ActivityForm
+              key={(selectedActivity && selectedActivity.id) || 0}
               setEditMode={setEditMode}
               selectedActivity={selectedActivity}
+              createActivity={createActivity}
+              editActivity={editActivity}
             />
           )}
         </Grid.Column>

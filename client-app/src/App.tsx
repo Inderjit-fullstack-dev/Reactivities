@@ -20,9 +20,34 @@ const App = () => {
     setEditMode(true);
   };
 
+  const handleCreateActivity = (activity: any) => {
+    setActivities([...activities, activity]);
+    setSelectedActivity(activity);
+    setEditMode(false);
+  };
+
+  const handleEditActivity = (activity: any) => {
+    setActivities([
+      ...activities.filter((a) => a.id !== activity.id),
+      activity,
+    ]);
+    setSelectedActivity(activity);
+    setEditMode(false);
+  };
+
+  const handleDelete = (id: string) => {
+    setActivities([...activities.filter((a) => a.id !== id)]);
+  };
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/activities").then((response) => {
-      setActivities(response.data);
+      let activities: any[] = [];
+      response.data.forEach((activity: any) => {
+        activity.date = activity.date.split(".")[0];
+        activities.push(activity);
+      });
+
+      setActivities(activities);
     });
   }, []);
 
@@ -37,6 +62,9 @@ const App = () => {
           setSelectedActivity={setSelectedActivity}
           editMode={editMode}
           setEditMode={setEditMode}
+          createActivity={handleCreateActivity}
+          editActivity={handleEditActivity}
+          deleteActivity={handleDelete}
         />
       </Container>
     </div>
