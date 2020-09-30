@@ -1,29 +1,34 @@
 import React from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 
-const ActivityList: React.FC<any> = (props) => {
+const ActivityList: React.FC<any> = ({ activities, selectActivity }) => {
   return (
     <Segment>
       <Item.Group divided>
-        {props.activities.map((value: any) => (
-          <Item>
+        {activities.map((activity: any) => (
+          <Item key={activity.id}>
             <Item.Content>
-              <Item.Header as="a">{value.title}</Item.Header>
-              <Item.Meta>{value.date}</Item.Meta>
+              <Item.Header as="a">{activity.title}</Item.Header>
+              <Item.Meta>{activity.date}</Item.Meta>
               <Item.Description>
-                <div>{value.description}</div>
+                <div>{activity.description}</div>
                 <div>
-                  {value.city}, {value.venue}
+                  {activity.city}, {activity.venue}
                 </div>
                 <Label
                   className="activity__category"
                   size="tiny"
                   basic
-                  content={value.category}
+                  content={activity.category}
                 />
               </Item.Description>
               <Item.Extra>
-                <Button content="View" color="blue" floated="right" />
+                <Button
+                  content="View"
+                  color="blue"
+                  floated="right"
+                  onClick={() => selectActivity(activity.id)}
+                />
               </Item.Extra>
             </Item.Content>
           </Item>

@@ -5,7 +5,20 @@ import { Container } from "semantic-ui-react";
 import Dashboard from "./Components/Dashboard";
 
 const App = () => {
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState<any[]>([]);
+  const [selectedActivity, setSelectedActivity] = useState<any>(null);
+
+  const [editMode, setEditMode] = useState(false);
+
+  const handleSelectActivity = (id: string) => {
+    setSelectedActivity(activities.find((a) => a.id === id));
+    setEditMode(false);
+  };
+
+  const handleOpenCreateForm = () => {
+    setSelectedActivity(null);
+    setEditMode(true);
+  };
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/activities").then((response) => {
@@ -15,9 +28,16 @@ const App = () => {
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar openCreateForm={handleOpenCreateForm} />
       <Container style={{ marginTop: "5em" }}>
-        <Dashboard activities={activities} />
+        <Dashboard
+          activities={activities}
+          selectActivity={handleSelectActivity}
+          selectedActivity={selectedActivity}
+          setSelectedActivity={setSelectedActivity}
+          editMode={editMode}
+          setEditMode={setEditMode}
+        />
       </Container>
     </div>
   );
