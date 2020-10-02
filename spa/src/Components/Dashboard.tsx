@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid } from "semantic-ui-react";
 import ActivityDetail from "./ActivityDetail";
 import ActivityForm from "./ActivityForm";
 import ActivityList from "./ActivityList";
+import { observer } from "mobx-react-lite";
+import ActivityStore from "../store/activityStore";
 interface IProps {
-  activities: any[];
-  selectActivity: (id: string) => void;
-  selectedActivity: any | null;
   setSelectedActivity: (activity: any | null) => void;
-  editMode: boolean;
   setEditMode: (editMode: boolean) => void;
   createActivity: (activity: any) => void;
   editActivity: (activity: any) => void;
@@ -17,11 +15,7 @@ interface IProps {
   target: string;
 }
 const Dashboard: React.FC<IProps> = ({
-  activities,
-  selectActivity,
-  selectedActivity,
   setSelectedActivity,
-  editMode,
   setEditMode,
   createActivity,
   editActivity,
@@ -29,13 +23,13 @@ const Dashboard: React.FC<IProps> = ({
   submitting,
   target,
 }) => {
+  const activityStore = useContext(ActivityStore);
+  const { selectedActivity, editMode } = activityStore;
   return (
     <Grid>
       <Grid.Row>
         <Grid.Column width={10}>
           <ActivityList
-            activities={activities}
-            selectActivity={selectActivity}
             deleteActivity={deleteActivity}
             submitting={submitting}
             target={target}
@@ -67,4 +61,4 @@ const Dashboard: React.FC<IProps> = ({
   );
 };
 
-export default Dashboard;
+export default observer(Dashboard);
