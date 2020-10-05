@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card, Icon, Image } from "semantic-ui-react";
+import ActivityStore from "../store/activityStore";
 
-const ActivityDetail: React.FC<any> = ({
-  selectedActivity,
-  setEditMode,
-  setSelectedActivity,
-}) => {
+const ActivityDetail = () => {
+  const activityStore = useContext(ActivityStore);
+  const { selectedActivity, setEditMode, selectActivity } = activityStore;
   return (
     <Card>
       <Image
@@ -26,7 +25,7 @@ const ActivityDetail: React.FC<any> = ({
             <Icon name="edit" /> Edit
           </Button>
 
-          <Button basic color="grey" onClick={() => setSelectedActivity(null)}>
+          <Button basic color="grey" onClick={() => selectActivity()}>
             <Icon name="cancel" /> Cancel
           </Button>
         </Button.Group>

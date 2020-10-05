@@ -2,13 +2,15 @@ import React, { useContext } from "react";
 import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import ActivityStore from "../store/activityStore";
-const ActivityList: React.FC<any> = ({
-  deleteActivity,
-  submitting,
-  target,
-}) => {
+const ActivityList = () => {
   const activityStore = useContext(ActivityStore);
-  const { activities, selectActivity } = activityStore;
+  const {
+    activities,
+    selectActivity,
+    deleteActivity,
+    submitting,
+    target,
+  } = activityStore;
   return (
     <Segment>
       <Item.Group divided>
