@@ -5,7 +5,7 @@ import ActivityStore from "../store/activityStore";
 const ActivityList = () => {
   const activityStore = useContext(ActivityStore);
   const {
-    activities,
+    activitiesByDate,
     selectActivity,
     deleteActivity,
     submitting,
@@ -14,7 +14,7 @@ const ActivityList = () => {
   return (
     <Segment>
       <Item.Group divided>
-        {activities.map((activity: any) => (
+        {activitiesByDate.map((activity: any) => (
           <Item key={activity.id}>
             <Item.Content>
               <Item.Header as="a">{activity.title}</Item.Header>

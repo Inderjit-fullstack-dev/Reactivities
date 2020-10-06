@@ -33,14 +33,29 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
-            return await _mediator.Send(command);
+            try 
+            {
+                return await _mediator.Send(command);
+            } 
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
-            command.Id = id;
-            return await _mediator.Send(command);
+            try 
+            {
+                command.Id = id;
+                return await _mediator.Send(command);
+            } 
+            catch(Exception ex)
+            
+            {
+                return BadRequest(ex.StackTrace);
+            }
         }
 
         [HttpDelete("{id}")]

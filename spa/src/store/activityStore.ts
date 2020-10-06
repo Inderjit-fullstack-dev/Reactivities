@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, computed, observable } from "mobx";
 import { createContext } from "react";
 import agent from "../api/agent";
 
@@ -9,6 +9,10 @@ class ActivityStore {
   @observable selectedActivity: any | undefined;
   @observable editMode = false;
   @observable target = null;
+
+  @computed get activitiesByDate() {
+    return this.activities.sort((a, b) => a.date - b.date);
+  }
 
   @action loadActivities = () => {
     this.loadingInitial = true;
