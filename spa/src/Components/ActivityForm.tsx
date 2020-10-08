@@ -1,35 +1,48 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import ActivityStore from "../store/activityStore";
 import { observer } from "mobx-react-lite";
-const ActivityForm = () => {
+import LoadingComponent from "./common/LoadingComponent";
+const ActivityForm: React.FC<any> = ({ match, history }) => {
   const activityStore = useContext(ActivityStore);
   const {
-    selectedActivity,
+    activity: initialFormState,
     submitting,
     setEditMode,
     createActivity,
     editActivity,
+    loadActivityAsync,
+    loadingInitial,
+    clearActivity,
   } = activityStore;
 
-  const initializeForm = () => {
-    if (selectedActivity) {
-      return selectedActivity;
-    } else {
-      return {
-        id: "",
-        title: "",
-        description: "",
-        category: "",
-        date: "",
-        city: "",
-        venue: "",
-      };
-    }
-  };
+  const [activity, setActivity] = useState({
+    id: "",
+    title: "",
+    description: "",
+    category: "",
+    date: "",
+    city: "",
+    venue: "",
+  });
 
-  const [activity, setActivity] = useState(initializeForm);
+  useEffect(() => {
+    if (match.params.id && activity.id.length === 0) {
+      loadActivityAsync(match.params.id).then(() => {
+        initialFormState && setActivity(initialFormState);
+      });
+    }
+    return () => {
+      clearActivity();
+    };
+  }, [
+    loadActivityAsync,
+    match.params.id,
+    clearActivity,
+    initialFormState,
+    activity.id.length,
+  ]);
 
   const hangleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -42,11 +55,17 @@ const ActivityForm = () => {
         ...activity,
         id: uuid(),
       };
-      createActivity(newActivity);
+      createActivity(newActivity).then(() =>
+        history.push(`/activities/${newActivity.id}`)
+      );
     } else {
-      editActivity(activity);
+      editActivity(activity).then(() =>
+        history.push(`/activities/${activity.id}`)
+      );
     }
   };
+
+  if (loadingInitial) return <LoadingComponent content="Loading..." />;
 
   return (
     <Segment clearing>
