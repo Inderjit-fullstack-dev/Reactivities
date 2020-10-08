@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import Navbar from "./Components/Navbar";
 import { Container } from "semantic-ui-react";
 import Dashboard from "./Components/Dashboard";
@@ -18,19 +18,26 @@ const App: React.FC<any> = ({ location }) => {
 
   return (
     <div className="App">
-      <Navbar />
-      <Container style={{ marginTop: "5em" }}>
-        <Switch>
-          <Route path="/activities/:id" component={ActivityDetail} />
-          <Route path="/activities" component={Dashboard} />
-          <Route
-            key={location.key}
-            path={["/createActivity", "/manage/:id"]}
-            component={ActivityForm}
-          />
-          <Route exact path="/" component={Home} />
-        </Switch>
-      </Container>
+      <Route exact path="/" component={Home} />
+      <Route
+        path={"/(.+)"}
+        render={() => (
+          <Fragment>
+            <Navbar />
+            <Container style={{ marginTop: "5em" }}>
+              <Switch>
+                <Route path="/activities/:id" component={ActivityDetail} />
+                <Route path="/activities" component={Dashboard} />
+                <Route
+                  key={location.key}
+                  path={["/createActivity", "/manage/:id"]}
+                  component={ActivityForm}
+                />
+              </Switch>
+            </Container>
+          </Fragment>
+        )}
+      />
     </div>
   );
 };
