@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Segment } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import ActivityStore from "../store/activityStore";
 import { observer } from "mobx-react-lite";
@@ -68,61 +68,65 @@ const ActivityForm: React.FC<any> = ({ match, history }) => {
   if (loadingInitial) return <LoadingComponent content="Loading..." />;
 
   return (
-    <Segment clearing>
-      <Form onSubmit={handleSubmit}>
-        <Form.Input
-          name="title"
-          placeholder="Title"
-          value={activity.title}
-          onChange={hangleInputChange}
-        />
-        <Form.TextArea
-          name="description"
-          rows={2}
-          placeholder="Description"
-          value={activity.description}
-          onChange={hangleInputChange}
-        />
-        <Form.Input
-          name="category"
-          placeholder="Category"
-          value={activity.category}
-          onChange={hangleInputChange}
-        />
-        <Form.Input
-          name="date"
-          type="datetime-local"
-          placeholder="Date"
-          value={activity.date}
-          onChange={hangleInputChange}
-        />
-        <Form.Input
-          name="city"
-          placeholder="City"
-          value={activity.city}
-          onChange={hangleInputChange}
-        />
-        <Form.Input
-          name="venue"
-          placeholder="Venue"
-          value={activity.venue}
-          onChange={hangleInputChange}
-        />
-        <Button
-          loading={submitting}
-          floated="right"
-          positive
-          type="submit"
-          content="Submit"
-        />
-        <Button
-          floated="right"
-          type="button"
-          content="Cancel"
-          onClick={() => setEditMode(false)}
-        />
-      </Form>
-    </Segment>
+    <Grid>
+      <Grid.Column width={10}>
+        <Segment clearing>
+          <Form onSubmit={handleSubmit}>
+            <Form.Input
+              name="title"
+              placeholder="Title"
+              value={activity.title}
+              onChange={hangleInputChange}
+            />
+            <Form.TextArea
+              name="description"
+              rows={2}
+              placeholder="Description"
+              value={activity.description}
+              onChange={hangleInputChange}
+            />
+            <Form.Input
+              name="category"
+              placeholder="Category"
+              value={activity.category}
+              onChange={hangleInputChange}
+            />
+            <Form.Input
+              name="date"
+              type="datetime-local"
+              placeholder="Date"
+              value={activity.date}
+              onChange={hangleInputChange}
+            />
+            <Form.Input
+              name="city"
+              placeholder="City"
+              value={activity.city}
+              onChange={hangleInputChange}
+            />
+            <Form.Input
+              name="venue"
+              placeholder="Venue"
+              value={activity.venue}
+              onChange={hangleInputChange}
+            />
+            <Button
+              loading={submitting}
+              floated="right"
+              positive
+              type="submit"
+              content="Submit"
+            />
+            <Button
+              floated="right"
+              type="button"
+              content="Cancel"
+              onClick={() => setEditMode(false)}
+            />
+          </Form>
+        </Segment>
+      </Grid.Column>
+    </Grid>
   );
 };
 

@@ -9,7 +9,7 @@ const Navbar = () => {
           <img src="/assets/logo.png" alt="logo" className="logo" />
           Reacvities
         </Menu.Item>
-        <Menu.Item exact as={NavLink} to="/activities">
+        <Menu.Item as={NavLink} to="/activities">
           Activities
         </Menu.Item>
         <Menu.Item>
