@@ -90,3 +90,11 @@ dotnet ef migrations add InitialCreate -p Persistence/ -s API/
 * add mediatR package
 
 MediatR.Extension.Microsoft.DependencyInjection
+
+
+
+--------------------------------------------------------------
+
+* Adding fluent validation using nuget packege
+
+FluentValidation.AspNetCore
