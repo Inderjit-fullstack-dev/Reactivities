@@ -7,16 +7,19 @@ import ActivityDetailSidebar from "./details/ActivityDetailSidebar";
 import ActivityDetailHeader from "./details/ActivityDetailHeader";
 import ActivityDetailInfo from "./details/ActivityDetailInfo";
 import ActivityDetailChat from "./details/ActivityDetailChat";
-const ActivityDetail: React.FC<any> = ({ match }) => {
+const ActivityDetail: React.FC<any> = ({ match, history }) => {
   const activityStore = useContext(ActivityStore);
-  const { activity, loadActivity, loadingInitial } = activityStore;
+  const { activity, loadActivityAsync, loadingInitial } = activityStore;
 
   useEffect(() => {
-    loadActivity(match.params.id);
-  }, [loadActivity, match.params.id]);
+    loadActivityAsync(match.params.id);
+  }, [loadActivityAsync, match.params.id, history]);
 
   if (loadingInitial)
     return <LoadingComponent content="Loading activity..." inverted={false} />;
+
+  if (!loadingInitial && !activity) return <h1>Activity not found!</h1>;
+
   return (
     <Grid>
       <Grid.Column width={10}>

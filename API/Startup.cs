@@ -4,6 +4,7 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,6 @@ namespace API
         }
 
         public IConfiguration Configuration { get; }
-        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(List.Handler).Assembly);
@@ -30,7 +30,9 @@ namespace API
             });
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:3000");
                 });
             });
             services.AddControllers().AddFluentValidation(config => 
@@ -40,15 +42,16 @@ namespace API
         } 
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        {   
             app.UseMiddleware<ErrorHandlingMiddleware>();
-
             if (env.IsDevelopment())
             {
-                
+                // app.UseDeveloperExceptionPage();
             }
-
-            //app.UseHttpsRedirection();
+            else
+            { 
+                app.UseHsts();
+            } 
 
             app.UseCors("CorsPolicy");
 
@@ -60,6 +63,7 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

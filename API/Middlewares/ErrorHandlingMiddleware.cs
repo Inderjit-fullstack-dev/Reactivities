@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Application.Errors;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -12,20 +13,19 @@ namespace API.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
-        public ErrorHandlingMiddleware(RequestDelegate next, 
-            ILogger<ErrorHandlingMiddleware> logger)
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
-             _next = next;
-             _logger = logger;
+            _logger = logger;
+            _next = next;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            try 
+            try
             {
                 await _next(context);
-            }
-            catch(Exception ex)
+            } 
+            catch (Exception ex)
             {
                 await HandleExceptionAsync(context, ex, _logger);
             }
@@ -35,26 +35,24 @@ namespace API.Middlewares
         {
             object errors = null;
 
-            switch(ex)
+            switch (ex)
             {
                 case RestException re:
                     logger.LogError(ex, "REST ERROR");
                     errors = re.Errors;
-                    context.Response.StatusCode = (int) re.Code;
+                    context.Response.StatusCode = (int)re.Code;
                     break;
-
                 case Exception e:
                     logger.LogError(ex, "SERVER ERROR");
-                    errors = string.IsNullOrEmpty(e.Message) ? "Error" : e.Message;
-                    context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                    errors = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message;
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
 
             context.Response.ContentType = "application/json";
-
-            if(errors != null)
+            if (errors != null)
             {
-                var result = JsonSerializer.Serialize(new 
+                 var result = JsonSerializer.Serialize(new 
                 {
                     errors
                 });
@@ -62,5 +60,5 @@ namespace API.Middlewares
                 await context.Response.WriteAsync(result);
             }
         }
-    }
+    } 
 }

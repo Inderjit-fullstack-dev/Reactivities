@@ -1,6 +1,30 @@
+import { history } from "./../index";
 import axios, { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+// adding the interceptor for handling the response
+
+axios.interceptors.response.use(undefined, (error) => {
+  const { status, data, config } = error.response;
+
+  if (status === 404) {
+    history.push("/notfound");
+  }
+
+  if (
+    status === 400 &&
+    config.method.toLowerCase() === "get" &&
+    data.errors.hasOwnProperty("id")
+  ) {
+    history.push("/notfound");
+  }
+
+  if (status === 500) {
+    toast.error("Server error - Something went wrong!");
+  }
+});
 
 const responseBody = (response: AxiosResponse) => response.data;
 

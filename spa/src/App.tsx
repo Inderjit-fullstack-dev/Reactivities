@@ -8,7 +8,8 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import Home from "./Components/Home";
 import ActivityForm from "./Components/ActivityForm";
 import ActivityDetail from "./Components/ActivityDetail";
-
+import NotFound from "./Components/common/NotFound";
+import { ToastContainer } from "react-toastify";
 const App: React.FC<any> = ({ location }) => {
   const activityStore = useContext(ActivityStore);
 
@@ -18,6 +19,8 @@ const App: React.FC<any> = ({ location }) => {
 
   return (
     <div className="App">
+      <ToastContainer position="bottom-right" />
+
       <Route exact path="/" component={Home} />
       <Route
         path={"/(.+)"}
@@ -33,6 +36,7 @@ const App: React.FC<any> = ({ location }) => {
                   path={["/createActivity", "/manage/:id"]}
                   component={ActivityForm}
                 />
+                <Route component={NotFound} />
               </Switch>
             </Container>
           </Fragment>

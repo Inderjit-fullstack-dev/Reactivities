@@ -29,10 +29,11 @@ namespace Application.Activities
             {
                 var activity =  await _context.Activities.FindAsync(request.Id);
 
-                if(activity == null) 
+                if(activity == null) {
+                    Console.WriteLine("Hit Here");
                     throw new RestException(HttpStatusCode.NotFound, 
                         new { activity = "Activity not found" });
-
+                } 
                 return activity;
             }
         }
