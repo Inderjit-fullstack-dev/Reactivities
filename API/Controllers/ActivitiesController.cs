@@ -1,35 +1,25 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Application.Activities;
-using Application.Errors;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ActivitiesController : ControllerBase
-    {
-        private readonly IMediator _mediator;
-        public ActivitiesController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
+{ 
+    public class ActivitiesController : BaseController
+    { 
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> List()
         {
-            return await _mediator.Send(new List.Query());
+            return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> Details(Guid id) 
         {
-            return await _mediator.Send(new Details.Query() { Id = id });
+            return await Mediator.Send(new Details.Query() { Id = id });
         }
 
         [HttpPost]
@@ -37,7 +27,7 @@ namespace API.Controllers
         {
             try 
             {
-                return await _mediator.Send(command);
+                return await Mediator.Send(command);
             } 
             catch(Exception ex)
             {
@@ -51,10 +41,9 @@ namespace API.Controllers
             try 
             {
                 command.Id = id;
-                return await _mediator.Send(command);
+                return await Mediator.Send(command);
             } 
             catch(Exception ex)
-            
             {
                 return BadRequest(ex.StackTrace);
             }
@@ -62,9 +51,8 @@ namespace API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
-        {
-            
-            return await _mediator.Send(new Delete.Command() { Id = id });
+        { 
+            return await Mediator.Send(new Delete.Command() { Id = id });
         } 
     }
 }
