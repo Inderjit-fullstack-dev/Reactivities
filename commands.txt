@@ -1,3 +1,10 @@
+password for all users 
+
+Pa$$w0rd
+
+-------------------------------------------------------
+
+
 * create new solution
 dotnet new sln
 
@@ -104,4 +111,6 @@ FluentValidation.AspNetCore
 
 * Adding package for Identity
 
-Microsoft.AspNetCore.Identity.EntityFrameworkCore
+Microsoft.AspNetCore.Identity.EntityFrameworkCore in the Domain
+
+Microsoft.AspNetCore.Identity.UI in api
