@@ -98,3 +98,10 @@ MediatR.Extension.Microsoft.DependencyInjection
 * Adding fluent validation using nuget packege
 
 FluentValidation.AspNetCore
+
+
+------------------------------------------------------------
+
+* Adding package for Identity
+
+Microsoft.AspNetCore.Identity.EntityFrameworkCore
