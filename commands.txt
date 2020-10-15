@@ -114,3 +114,35 @@ FluentValidation.AspNetCore
 Microsoft.AspNetCore.Identity.EntityFrameworkCore in the Domain
 
 Microsoft.AspNetCore.Identity.UI in api
+
+
+----------------------------------------------------------------
+
+
+* Adding infrastructure project
+
+dotnet new classlib -n Infrastructure
+
+dotnet sln add Infrastructure/
+
+----------------------------------------------------------------
+
+* Adding project dependency
+
+cd Infrastructure
+
+dotnet add reference ../Application/
+
+cd api/
+
+dotnet add reference ../Infrastructure/
+
+-----------------------------------------------------------------
+
+*Adding System.IdentityModel.Tokens.Jwt to infrastructure.
+
+---------------------------------------------------------
+
+* adding package
+
+Microsoft.AspNetCore.Authentication.JwtBearer
