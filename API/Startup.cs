@@ -7,10 +7,12 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,14 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(List.Handler).Assembly);
+
+            services.AddMvc(opt => 
+            {
+                // every request will be authorized.
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            });
             
             services.AddDbContext<DataContext>(opt => {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
@@ -56,7 +66,7 @@ namespace API
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("wingardium leviosa"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt => 
                 {
