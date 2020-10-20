@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { Grid } from "semantic-ui-react";
-import ActivityStore from "../store/activityStore";
 import LoadingComponent from "./common/LoadingComponent";
 import { observer } from "mobx-react-lite";
 import ActivityDetailSidebar from "./details/ActivityDetailSidebar";
 import ActivityDetailHeader from "./details/ActivityDetailHeader";
 import ActivityDetailInfo from "./details/ActivityDetailInfo";
 import ActivityDetailChat from "./details/ActivityDetailChat";
+import { RootStoreContext } from "../store/rootStore";
 const ActivityDetail: React.FC<any> = ({ match, history }) => {
-  const activityStore = useContext(ActivityStore);
+  const { activityStore } = useContext(RootStoreContext);
   const { activity, loadActivityAsync, loadingInitial } = activityStore;
 
   useEffect(() => {

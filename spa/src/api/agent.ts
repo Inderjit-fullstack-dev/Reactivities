@@ -4,9 +4,20 @@ import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
-// adding the interceptor for handling the response
+axios.interceptors.request.use(
+  (config) => {
+    const token = window.localStorage.getItem("jwt");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
+// adding the interceptor for handling the response
 axios.interceptors.response.use(undefined, (error) => {
+  console.log(error);
   const { status, data, config } = error.response;
 
   if (status === 404) {
@@ -25,7 +36,7 @@ axios.interceptors.response.use(undefined, (error) => {
     toast.error("Server error - Something went wrong!");
   }
 
-  throw error;
+  throw error.response;
 });
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -51,4 +62,13 @@ const Activities = {
   delete: (id: string) => requests.del(`/activities/${id}`),
 };
 
-export default { Activities };
+const User = {
+  currentUser: () => requests.get("/user"),
+  login: (user: any) => requests.post("/user/login", user),
+  register: (user: any) => requests.post("/user/register", user),
+};
+
+export default {
+  Activities,
+  User,
+};
